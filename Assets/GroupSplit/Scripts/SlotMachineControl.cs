@@ -7,10 +7,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SlotMachineControl : MonoBehaviour {
+public class SlotMachineControl : MonoBehaviour
+{
 
     public GameObject selectFrame;
-	public GameObject victoryImage;
+    public GameObject victoryImage;
 
     List<string> names = new List<string>();
 
@@ -26,10 +27,12 @@ public class SlotMachineControl : MonoBehaviour {
     float m_TimeCount;
     float m_MaxTime;
 
+
+    #region Message Function
+
     void Awake()
     {
         m_Ani = GetComponent<Animator>();
-
 
         nameTxts = new Text[transform.childCount];
         for (int i = 0; i < nameTxts.Length; i++)
@@ -38,20 +41,31 @@ public class SlotMachineControl : MonoBehaviour {
         }
     }
 
-    float GetSpeed()
-    {
-        return Mathf.Max(0, Mathf.Sin(Mathf.PI * m_TimeCount / m_MaxTime)) * 4 + 0.8f;
-    }
-
-
     void OnEnable()
     {
         StartCoroutine(LoadAsync());
     }
 
-    private void OnDisable()
+    void Update()
     {
-        //Debug.Log("OnDisable");
+        if (m_Run)
+        {
+            m_TimeCount -= Time.deltaTime;
+            m_Ani.SetInteger(countHash, (int)m_TimeCount);
+            m_Ani.speed = GetSpeed();
+            if (m_TimeCount < 0)
+            {
+                m_Run = false;
+                selectFrame.transform.position = nameTxts[2].transform.position;
+                selectFrame.SetActive(true);
+                victoryImage.SetActive(true);
+                NameListLoad.Instance.randomNameResultText.text = GetSlotMachineName();
+            }
+        }
+    }
+
+    void OnDisable()
+    {
         StopAllCoroutines();
         m_Run = false;
         m_TimeCount = 0;
@@ -60,6 +74,20 @@ public class SlotMachineControl : MonoBehaviour {
         m_Ani.speed = 1;
         m_Ani.enabled = false;
 
+    }
+    #endregion
+
+    #region Public Function
+    public string GetSlotMachineName()
+    {
+        return currentNames[2];
+    }
+    #endregion
+
+    #region Private Function
+    float GetSpeed()
+    {
+        return Mathf.Max(0, Mathf.Sin(Mathf.PI * m_TimeCount / m_MaxTime)) * 4 + 0.8f;
     }
 
     IEnumerator LoadAsync()
@@ -73,63 +101,44 @@ public class SlotMachineControl : MonoBehaviour {
             clips[i].clip.wrapMode = WrapMode.Default;
         }
         while (NameListLoad.Instance == null || !NameListLoad.Instance.m_Loaded)
-		{
-			yield return null;
-		}
-		names = NameListLoad.Instance.GetCurrentNameList();
-
-		m_TimeCount = m_MaxTime = Random.Range(5, 15.0f);
-		m_Ani.SetInteger(countHash, (int)m_TimeCount);
-
-		InitNameList();
-		m_Run = true;
-    }
-
-    void Update()
-    {
-        if(m_Run)
         {
-            m_TimeCount -= Time.deltaTime;
-			m_Ani.SetInteger(countHash, (int)m_TimeCount);
-            m_Ani.speed = GetSpeed();
-            if(m_TimeCount < 0)
-            {
-                m_Run = false;
-                selectFrame.transform.position = nameTxts[2].transform.position;
-                selectFrame.SetActive(true);
-                victoryImage.SetActive(true);
-                NameListLoad.Instance.randomNameResultText.text = GetSlotMachineName();
-            }
+            yield return null;
         }
+        names = NameListLoad.Instance.GetCurrentNameList();
+
+        m_TimeCount = m_MaxTime = Random.Range(5, 15.0f);
+        m_Ani.SetInteger(countHash, (int)m_TimeCount);
+
+        InitNameList();
+        m_Run = true;
     }
 
     void InitNameList()
     {
-		currentNames = new List<string>();
-		for (int i = 0; i < nameTxts.Length; i++)
-		{
-			currentNames.Add(names[Random.Range(0, names.Count)]);
-			nameTxts[i].text = currentNames[i];
-		}
+        currentNames = new List<string>();
+        for (int i = 0; i < nameTxts.Length; i++)
+        {
+            currentNames.Add(names[Random.Range(0, names.Count)]);
+            nameTxts[i].text = currentNames[i];
+        }
     }
+    #endregion
 
+    #region Event Callback
     public void OnUpdateNameList()
     {
         currentNames.RemoveAt(0);
         currentNames.Add(names[Random.Range(0, names.Count)]);
-		for (int i = 0; i < nameTxts.Length; i++)
-		{
-			nameTxts[i].text = currentNames[i];
-		}
+        for (int i = 0; i < nameTxts.Length; i++)
+        {
+            nameTxts[i].text = currentNames[i];
+        }
 
         //if(m_TimeCount < 0)
         //{
         //    selectFrame.SetActive(true);
         //}
     }
+    #endregion
 
-    public string GetSlotMachineName()
-    {
-        return currentNames[2];
-    }
 }

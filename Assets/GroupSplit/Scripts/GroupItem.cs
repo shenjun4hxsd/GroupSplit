@@ -17,16 +17,18 @@ public class GroupItem : MonoBehaviour
     Button m_RandomAddBtn;
     Text m_GroupNameText;       // 显示小组名
     Text m_NumText;             // 显示人数
-    Text m_CaptionText;        // 下拉列表名单
+    Text m_CaptionText;         // 下拉列表名单
 
     public string m_GroupName = "";
 
+
+    #region Message Function
     void Awake()
     {
         m_DropDown = transform.GetComponentInChildren<Dropdown>();
         m_DropDown.options.Clear();
         m_DropDown.enabled = false;
-		m_CaptionText = m_DropDown.captionText;
+        m_CaptionText = m_DropDown.captionText;
 
         m_AddBtn = transform.Find("AddBtn").GetComponent<Button>();
         m_SubBtn = transform.Find("SubBtn").GetComponent<Button>();
@@ -35,44 +37,94 @@ public class GroupItem : MonoBehaviour
         m_GroupNameText = transform.Find("GroupName").GetComponent<Text>();
         m_NumText = transform.Find("numTxt").GetComponent<Text>();
 
-        m_AddBtn.onClick.AddListener(() => {
-			string item;
+        m_AddBtn.onClick.AddListener(() =>
+        {
+            string item;
             if (NameListLoad.Instance.TryRemoveName(out item))
-			{
+            {
                 AddItem(item);
-			}
+            }
         });
 
-        m_SubBtn.onClick.AddListener(() => {
+        m_SubBtn.onClick.AddListener(() =>
+        {
             string item;
-            if(TryRemoveCurrentItem(out item))
+            if (TryRemoveCurrentItem(out item))
             {
                 NameListLoad.Instance.AddName(item);
             }
         });
 
-        m_RandomAddBtn.onClick.AddListener(() => {
+        m_RandomAddBtn.onClick.AddListener(() =>
+        {
             if (NameListLoad.Instance.Count <= 1)
             {
-				NameListLoad.Instance.tipsText.text = "Tips : 少于2名成员，不用随机了吧！";
+                NameListLoad.Instance.tipsText.text = "Tips : 少于2名成员，不用随机了吧！";
                 return;
             }
-                
+
             NameListLoad.Instance.OnStartRandom(this);
         });
 
         m_SubBtn.enabled = false;
     }
+    #endregion
 
-    public void SetGroupName(string name)
+    #region Private Function
+
+    /// <summary>
+    /// 移除当前项
+    /// </summary>
+    bool TryRemoveCurrentItem(out string item)
     {
-        m_DropDown.RefreshShownValue();
-        m_GroupName = name;
-        m_GroupNameText.text = name;
-        m_CaptionText.text = name;
+        if (Count == 0)
+        {
+            ClampDrapdownValue();
+            item = "";
+            m_CaptionText.text = m_GroupName;
+            return false;
+        }
+        else
+        {
+            ClampDrapdownValue();
+            //Debug.Log("Count : " + Count + ", value = " + m_DropDown.value);
+            Dropdown.OptionData data = m_DropDown.options[m_DropDown.value];
+            m_DropDown.options.RemoveAt(m_DropDown.value);
+            m_DropDown.RefreshShownValue();
+            if (Count == 0)
+            {
+                //m_SubBtn.enabled = false;
+                m_DropDown.enabled = false;
+                m_CaptionText.text = m_GroupName;
+            }
+            UpdateNum();
+            item = data.text;
+            NameListLoad.Instance.tipsText.text = "Tips : " + m_GroupName + " 移除了成员 : " + item;
+            return true;
+        }
     }
 
-    public int Count { get{ return m_DropDown.options.Count; }}
+    /// <summary>
+    /// 更新列表人数
+    /// </summary>
+    void UpdateNum()
+    {
+        m_NumText.text = Count.ToString();
+    }
+
+    void ClampDrapdownValue()
+    {
+        if (Count == 0)
+        {
+            m_SubBtn.enabled = false;
+        }
+        m_DropDown.value = Mathf.Clamp(m_DropDown.value, 0, Count - 1);
+    }
+    #endregion
+
+    #region Public Function
+
+    public int Count { get { return m_DropDown.options.Count; } }
 
     public void AddItem(string name)
     {
@@ -87,63 +139,23 @@ public class GroupItem : MonoBehaviour
         NameListLoad.Instance.tipsText.text = "Tips : " + m_GroupName + " 选择了成员 : " + name;
     }
 
-    /// <summary>
-    /// 移除当前项
-    /// </summary>
-    public bool TryRemoveCurrentItem(out string item)
+    public List<string> GetCurrentNameList()
     {
-        if (Count == 0)
+        List<string> names = new List<string>();
+        foreach (var item in m_DropDown.options)
         {
-            ClampDrapdownValue();
-            item = "";
-            m_CaptionText.text = m_GroupName;
-            return false;
+            names.Add(item.text);
         }
-        else
-        {
-            ClampDrapdownValue();
-            Debug.Log("Count : " + Count + ", value = " + m_DropDown.value);
-			Dropdown.OptionData data = m_DropDown.options[m_DropDown.value];
-			m_DropDown.options.RemoveAt(m_DropDown.value);
-			m_DropDown.RefreshShownValue();
-            if (Count == 0)
-            {
-                //m_SubBtn.enabled = false;
-                m_DropDown.enabled = false;
-                m_CaptionText.text = m_GroupName;
-            }
-			UpdateNum();
-			item = data.text;
-            NameListLoad.Instance.tipsText.text = "Tips : " + m_GroupName + " 移除了成员 : " + item;
-            return true;
-        }
+        return names;
     }
 
-    /// <summary>
-    /// 更新列表人数
-    /// </summary>
-    void UpdateNum()
+    public void SetGroupName(string name)
     {
-        m_NumText.text = Count.ToString();
+        m_DropDown.RefreshShownValue();
+        m_GroupName = name;
+        m_GroupNameText.text = name;
+        m_CaptionText.text = name;
     }
-
-	public void ClampDrapdownValue()
-	{
-        if(Count == 0)
-        {
-            m_SubBtn.enabled = false;
-        }
-		m_DropDown.value = Mathf.Clamp(m_DropDown.value, 0, Count - 1);
-	}
-
-	public List<string> GetCurrentNameList()
-	{
-		List<string> names = new List<string>();
-		foreach (var item in m_DropDown.options)
-		{
-			names.Add(item.text);
-		}
-		return names;
-	}
+    #endregion
 
 }

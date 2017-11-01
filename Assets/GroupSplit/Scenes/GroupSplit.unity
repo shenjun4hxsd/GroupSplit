@@ -1112,10 +1112,10 @@ RectTransform:
   m_Father: {fileID: 1309171018}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 8.9635, y: -102.6}
-  m_SizeDelta: {x: 304.74, y: 30}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 0.0000019073, y: 132}
+  m_SizeDelta: {x: 308.83, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &294204809
 MonoBehaviour:
@@ -1129,7 +1129,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 0.63235295, g: 0.6091047, b: 0.6091047, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -1137,7 +1137,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 925d269235fd9ab48ba0c219dd1a04a0, type: 3}
     m_FontSize: 14
     m_FontStyle: 0
     m_BestFit: 0
@@ -1146,7 +1146,7 @@ MonoBehaviour:
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
-    m_HorizontalOverflow: 1
+    m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: "\u5F53\u524D\u9009\u62E9\u5206\u7EC4\u540D\u5355\u6587\u4EF6 \uFF1A <Color=yellow>\u540D\u5355</Color>"
@@ -1341,7 +1341,7 @@ GameObject:
   - component: {fileID: 420572312}
   - component: {fileID: 420572311}
   m_Layer: 5
-  m_Name: Panel
+  m_Name: GroupPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1896,6 +1896,12 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &709863036 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114715241624404000, guid: 727c009adba1443f5a06c20add7f67f1,
+    type: 2}
+  m_PrefabInternal: {fileID: 291658479}
+  m_Script: {fileID: 853051423, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
 --- !u!1 &789466272
 GameObject:
   m_ObjectHideFlags: 0
@@ -2300,7 +2306,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 122.36, y: -287}
+  m_AnchoredPosition: {x: 122.36011, y: -287}
   m_SizeDelta: {x: 153.79, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &988991934
@@ -2936,8 +2942,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 458.1, y: -358.5}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: 413.05, y: -381}
+  m_SizeDelta: {x: 312.91, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1179504770
 MonoBehaviour:
@@ -3282,24 +3288,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startPanel: {fileID: 1309171017}
+  input: {fileID: 1610823735}
+  startBtn: {fileID: 1916716368}
+  warningText: {fileID: 1426489551}
+  fileNameDropdown: {fileID: 1179504770}
+  currentFileNameText: {fileID: 294204809}
+  m_Loaded: 0
   groupPanel: {fileID: 420572309}
+  tipsText: {fileID: 1153358157}
+  createBtn: {fileID: 995009965}
+  quitBtn: {fileID: 117349444}
+  m_DropDown: {fileID: 709863036}
+  m_DropDownStartTrans: {fileID: 1167725336}
+  m_DropDownParent: {fileID: 420572310}
   randomPanel: {fileID: 1749437697}
   randomGroupText: {fileID: 789466274}
   randomNameResultText: {fileID: 2016611066}
   slotMachineControl: {fileID: 996689778}
-  input: {fileID: 1610823735}
-  startBtn: {fileID: 1916716368}
-  warningText: {fileID: 1426489551}
-  tipsText: {fileID: 1153358157}
   randomOKBtn: {fileID: 1643703949}
   randomCancelBtn: {fileID: 596555513}
-  createBtn: {fileID: 995009965}
-  quitBtn: {fileID: 117349444}
-  m_DropDownStartTrans: {fileID: 1167725336}
-  m_DropDownParent: {fileID: 420572310}
   m_NameList: []
   dropDowns: []
-  m_Loaded: 0
 --- !u!4 &1317546884
 Transform:
   m_ObjectHideFlags: 0
@@ -3747,7 +3756,7 @@ MonoBehaviour:
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
-    m_HorizontalOverflow: 0
+    m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: "Warning : \u5206\u7EC4\u6570\u5FC5\u987B\u5C0F\u4E8E10"
@@ -4578,8 +4587,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -170.4, y: -0.5}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: -2.5, y: 34}
+  m_SizeDelta: {x: 307.91, y: 29.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1886215983
 MonoBehaviour:
@@ -4593,7 +4602,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -4601,13 +4610,13 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 925d269235fd9ab48ba0c219dd1a04a0, type: 3}
     m_FontSize: 14
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
     m_MaxSize: 40
-    m_Alignment: 5
+    m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
